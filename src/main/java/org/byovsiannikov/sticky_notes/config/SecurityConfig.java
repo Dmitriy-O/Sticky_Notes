@@ -18,9 +18,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+//    HttpSecurity provides methods to configure security for a specific resource
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
+        httpSecurity.
 //        return httpSecurity.authorizeHttpRequests()
+        return null;
     }
 
     @Bean
