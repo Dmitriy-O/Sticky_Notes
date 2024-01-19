@@ -1,12 +1,10 @@
 package org.byovsiannikov.sticky_notes.jwt.serializeAnddeserialize;
 
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.*;
+import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.byovsiannikov.sticky_notes.model.Token;
 import org.slf4j.LoggerFactory;
@@ -14,16 +12,20 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.function.Function;
 
-import static org.slf4j.LoggerFactory.getLogger;
+@AllArgsConstructor
+public class RefreshTokenSerializer implements Function<Token, String> {
+    private JWEEncrypter encrypter;
+    @Setter
+    private JWEAlgorithm jwsAlgorithm = JWEAlgorithm.DIR;
+    @Setter
+    private EncryptionMethod encryptionMethod = EncryptionMethod.A128GCM;
 
 
-public class AccsessTokenSerializer implements Function<Token, String> {
-    private JWSSigner jwsSigner;
-    private JWSAlgorithm jwsAlgorithm = JWSAlgorithm.HS256;
+
 
     @Override
     public String apply(Token token) {
-        JWSHeader jwsHeader = new JWSHeader.Builder(jwsAlgorithm)
+        JWEHeader jweHeader = new JWEHeader.Builder(jwsAlgorithm, encryptionMethod)
                 .keyID(token.id().toString())
                 .build();
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -34,12 +36,12 @@ public class AccsessTokenSerializer implements Function<Token, String> {
                 .claim("authorities", token.authorities())
                 .build();
 
-        SignedJWT signedJWT = new SignedJWT(jwsHeader, jwtClaimsSet);
+        EncryptedJWT encryptedJWT = new EncryptedJWT(jweHeader,jwtClaimsSet);
         try {
-            signedJWT.sign(jwsSigner);
-            return signedJWT.serialize();
+            encryptedJWT.encrypt(encrypter);
+            return encryptedJWT.serialize();
         } catch (JOSEException e) {
-            getLogger(AccsessTokenSerializer.class).error(e.getMessage(), e);
+            LoggerFactory.getLogger(AccsessTokenSerializer.class).error(e.getMessage(), e);
         }
         return null;
     }
