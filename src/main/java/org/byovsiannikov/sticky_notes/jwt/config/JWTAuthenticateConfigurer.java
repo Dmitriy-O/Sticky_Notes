@@ -48,6 +48,8 @@ public class JWTAuthenticateConfigurer extends AbstractHttpConfigurer<JWTAuthent
         requestJwtTokensFilter.setAccessTokenStringSerializer(this.accessTokenStringSerializer);
         requestJwtTokensFilter.setRefreshTokenStringSerializer(this.refreshTokenStringSerializer);
 
+
+
 //        var jwtAuthenticationFilter = new AuthenticationFilter(builder.getSharedObject(AuthenticationManager.class),
 //                new JwtAuthenticationConverter(this.accessTokenStringDeserializer, this.refreshTokenStringDeserializer));
 //        jwtAuthenticationFilter
@@ -64,11 +66,11 @@ public class JWTAuthenticateConfigurer extends AbstractHttpConfigurer<JWTAuthent
 //
 //        var jwtLogoutFilter = new JwtLogoutFilter(this.jdbcTemplate);
 
-        builder.addFilterAfter(requestJwtTokensFilter, ExceptionTranslationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, CsrfFilter.class)
-                .addFilterAfter(refreshTokenFilter, ExceptionTranslationFilter.class)
-                .addFilterAfter(jwtLogoutFilter, ExceptionTranslationFilter.class)
-                .authenticationProvider(authenticationProvider);
+//        builder.addFilterAfter(requestJwtTokensFilter, ExceptionTranslationFilter.class)
+//                .addFilterBefore(jwtAuthenticationFilter, CsrfFilter.class)
+//                .addFilterAfter(refreshTokenFilter, ExceptionTranslationFilter.class)
+//                .addFilterAfter(jwtLogoutFilter, ExceptionTranslationFilter.class)
+//                .authenticationProvider(authenticationProvider);
     }
 
     public JWTAuthenticateConfigurer(JdbcTemplate jdbcTemplate) {
