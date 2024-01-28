@@ -48,8 +48,6 @@ public class JWTAuthenticateConfigurer extends AbstractHttpConfigurer<JWTAuthent
         requestJwtTokensFilter.setAccessTokenStringSerializer(this.accessTokenStringSerializer);
         requestJwtTokensFilter.setRefreshTokenStringSerializer(this.refreshTokenStringSerializer);
 
-
-
 //        var jwtAuthenticationFilter = new AuthenticationFilter(builder.getSharedObject(AuthenticationManager.class),
 //                new JwtAuthenticationConverter(this.accessTokenStringDeserializer, this.refreshTokenStringDeserializer));
 //        jwtAuthenticationFilter
