@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwt.serializeAnddeserialize;
+package org.byovsiannikov.sticky_notes.jwt1.serializeAnddeserialize;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -6,10 +6,7 @@ import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.byovsiannikov.sticky_notes.model.Token;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwt.filters;
+package org.byovsiannikov.sticky_notes.jwt1.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -6,8 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
-import org.byovsiannikov.sticky_notes.jwt.create.DefaultAccessTokenFactory;
-import org.byovsiannikov.sticky_notes.jwt.create.DefaultRefreshTokenFactory;
+import org.byovsiannikov.sticky_notes.jwt1.create.DefaultAccessTokenFactory;
+import org.byovsiannikov.sticky_notes.jwt1.create.DefaultRefreshTokenFactory;
 import org.byovsiannikov.sticky_notes.model.Token;
 import org.byovsiannikov.sticky_notes.model.TokenReturn;
 import org.springframework.http.HttpMethod;

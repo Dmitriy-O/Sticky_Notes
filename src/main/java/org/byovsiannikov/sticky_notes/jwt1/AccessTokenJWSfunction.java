@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwt;
+package org.byovsiannikov.sticky_notes.jwt1;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;

@@ -1,20 +1,11 @@
-package org.byovsiannikov.sticky_notes.jwt.config;
+package org.byovsiannikov.sticky_notes.jwt1.config;
 
-import jakarta.servlet.http.HttpServletResponse;
-import org.byovsiannikov.sticky_notes.jwt.filters.RequestJWTTokenFilter;
+import org.byovsiannikov.sticky_notes.jwt1.filters.RequestJWTTokenFilter;
 import org.byovsiannikov.sticky_notes.model.Token;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.SecurityBuilder;
-import org.springframework.security.config.annotation.SecurityConfigurer;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.function.Function;

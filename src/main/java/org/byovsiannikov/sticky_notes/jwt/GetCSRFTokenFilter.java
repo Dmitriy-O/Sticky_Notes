@@ -15,37 +15,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-/**
- * Retuns current csrf token in json format
- */
-public class GetCsrfTokenFilter extends OncePerRequestFilter {
-   private RequestMatcher requestMatcher = new AntPathRequestMatcher("/csrf", HttpMethod.GET.name());
+public class GetCSRFTokenFilter extends OncePerRequestFilter {
 
+    //Matcher for path's
+    private RequestMatcher requestMatcher = new AntPathRequestMatcher("/login", HttpMethod.GET.name());
     private CsrfTokenRepository csrfTokenRepository = new CookieCsrfTokenRepository();
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public void setRequestMatcher(RequestMatcher requestMatcher) {
-        this.requestMatcher = requestMatcher;
-    }
-
-    public void setCsrfTokenRepository(CsrfTokenRepository csrfTokenRepository) {
-        this.csrfTokenRepository = csrfTokenRepository;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         if (this.requestMatcher.matches(request)) {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            this.objectMapper.writeValue(response.getWriter(), this.csrfTokenRepository.loadDeferredToken(request, response).get());
-            return;
+            this.objectMapper.writeValue(response.getWriter(),this.csrfTokenRepository.loadDeferredToken(request,response).get());
         }
+        filterChain.doFilter(request,response);
 
-        filterChain.doFilter(request, response);
     }
 }

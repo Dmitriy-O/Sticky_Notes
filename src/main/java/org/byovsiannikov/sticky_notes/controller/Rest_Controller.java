@@ -1,17 +1,11 @@
 package org.byovsiannikov.sticky_notes.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.byovsiannikov.sticky_notes.jwt.serializeAnddeserialize.AccsessTokenSerializer;
-import org.byovsiannikov.sticky_notes.model.Token;
-import org.springframework.http.HttpStatus;
+import org.byovsiannikov.sticky_notes.jwt1.serializeAnddeserialize.AccsessTokenSerializer;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.http.HttpResponse;
-import java.util.function.Function;
 
 //The Authentication contains:
 //
@@ -21,13 +15,13 @@ import java.util.function.Function;
 //
 //authorities: The GrantedAuthority instances are high-level permissions the user is granted. Two examples are roles and scopes.
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class Rest_Controller {
 
     private  final AccsessTokenSerializer serializer;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<?> postNote(){
         return ResponseEntity.ok( )
     }

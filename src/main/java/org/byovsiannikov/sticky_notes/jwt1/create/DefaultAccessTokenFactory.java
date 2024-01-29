@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwt.create;
+package org.byovsiannikov.sticky_notes.jwt1.create;
 
 import lombok.Setter;
 import org.byovsiannikov.sticky_notes.model.Token;

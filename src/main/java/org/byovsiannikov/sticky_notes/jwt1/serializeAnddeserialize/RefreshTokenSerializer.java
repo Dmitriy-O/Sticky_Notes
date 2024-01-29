@@ -1,9 +1,8 @@
-package org.byovsiannikov.sticky_notes.jwt.serializeAnddeserialize;
+package org.byovsiannikov.sticky_notes.jwt1.serializeAnddeserialize;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.byovsiannikov.sticky_notes.model.Token;
