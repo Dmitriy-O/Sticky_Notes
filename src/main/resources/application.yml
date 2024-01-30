@@ -4,6 +4,7 @@ logging:
 
 jwt:
     cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
+    lifetime: 30m
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres

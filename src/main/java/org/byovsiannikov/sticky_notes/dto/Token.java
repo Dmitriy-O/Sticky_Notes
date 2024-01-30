@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.model;
+package org.byovsiannikov.sticky_notes.dto;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.byovsiannikov.sticky_notes.jwt1.config;
 
 import org.byovsiannikov.sticky_notes.jwt1.filters.RequestJWTTokenFilter;
-import org.byovsiannikov.sticky_notes.model.Token;
+import org.byovsiannikov.sticky_notes.dto.Token;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;

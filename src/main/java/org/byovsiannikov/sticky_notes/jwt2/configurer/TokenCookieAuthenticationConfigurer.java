@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwt.configurer;
+package org.byovsiannikov.sticky_notes.jwt2.configurer;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;

@@ -22,8 +22,14 @@ public class Rest_Controller {
     private  final AccsessTokenSerializer serializer;
 
     @PostMapping("/login")
+    public ResponseEntity<?> register(){
+        return ResponseEntity.ok().body("Hello from login");
+    }
+
+    @PostMapping("/any")
+
     public ResponseEntity<?> postNote(){
-        return ResponseEntity.ok( )
+        return ResponseEntity.ok().body("Hello from login");
     }
 //
 //    @GetMapping

@@ -5,7 +5,7 @@ import com.nimbusds.jwt.EncryptedJWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.byovsiannikov.sticky_notes.model.Token;
+import org.byovsiannikov.sticky_notes.dto.Token;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;

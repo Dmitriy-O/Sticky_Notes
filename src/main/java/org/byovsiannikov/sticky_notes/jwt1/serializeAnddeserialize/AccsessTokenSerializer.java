@@ -6,7 +6,7 @@ import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import org.byovsiannikov.sticky_notes.model.Token;
+import org.byovsiannikov.sticky_notes.dto.Token;
 
 import java.util.Date;
 import java.util.function.Function;

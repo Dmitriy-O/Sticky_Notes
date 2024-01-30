@@ -1,7 +1,7 @@
 package org.byovsiannikov.sticky_notes.jwt1.create;
 
 import lombok.Setter;
-import org.byovsiannikov.sticky_notes.model.Token;
+import org.byovsiannikov.sticky_notes.dto.Token;
 
 import java.time.Duration;
 import java.time.Instant;
