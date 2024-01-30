@@ -1,6 +1,7 @@
 package org.byovsiannikov.sticky_notes.configurer;
 
 import jakarta.servlet.FilterChain;
+import lombok.Data;
 import org.byovsiannikov.sticky_notes.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

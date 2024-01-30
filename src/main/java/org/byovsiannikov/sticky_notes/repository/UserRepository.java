@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.repositoriy;
+package org.byovsiannikov.sticky_notes.repository;
 
 import org.byovsiannikov.sticky_notes.entitiy.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
