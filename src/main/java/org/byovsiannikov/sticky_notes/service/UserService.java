@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
         if(userRepository.findByName(newUser.getName())!=null){
             logger.error("User {} already exists",newUser.getName());
         }
-        newUser.setUserRoleList(List.of(roleRepository.findByRoleName("ROLE_USER").get()));
+        newUser.setUserRoleList(List.of(roleRepository.findByRole("ROLE_USER").get()));
         userRepository.save(newUser);
     }
 

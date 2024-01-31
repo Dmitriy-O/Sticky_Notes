@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.jwtutils;
+package org.byovsiannikov.sticky_notes.jwt;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.DirectDecrypter;
@@ -62,7 +62,9 @@ public class TokenCreation {
         encryptedJWT.encrypt(directEncrypter);
 
 
-        return encryptedJWT.serialize();
+        String serialized = encryptedJWT.serialize();
+        Token subject = getAllClaims(serialized);
+        return serialized;
 
 
     }
@@ -107,7 +109,7 @@ public class TokenCreation {
             parsed.decrypt(decrypter);
             JWTClaimsSet claimsSet = parsed.getJWTClaimsSet();
 
-            return new Token(UUID.fromString(claimsSet.getJWTID()),
+            return new Token(UUID.randomUUID(),
                     claimsSet.getSubject(), claimsSet.getStringListClaim("roles"),
                     claimsSet.getIssueTime().toInstant(), claimsSet.getExpirationTime().toInstant());
         } catch (ParseException | JOSEException e) {

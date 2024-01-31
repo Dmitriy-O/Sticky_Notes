@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ResponseTokenDTO {
-    private String token;
+    private final String token;
 }

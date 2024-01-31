@@ -2,6 +2,7 @@ package org.byovsiannikov.sticky_notes.configurer;
 
 import jakarta.servlet.FilterChain;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.byovsiannikov.sticky_notes.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity(debug = true)
+@RequiredArgsConstructor
 public class AuthConfigurer {
 
-    UserService userService;
+    private final UserService userService;
+    private final JWTRequestFilter myContextHolderFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,7 +37,8 @@ public class AuthConfigurer {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+        AuthenticationManager authenticationManager = configuration.getAuthenticationManager();
+        return authenticationManager;
     }
 
     @Bean
@@ -51,11 +57,13 @@ public class AuthConfigurer {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.POST, "/login"))
-                .sessionManagement(el->el.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .exceptionHandling(el->el.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
-        //addFilter
-
+                        request.requestMatchers(HttpMethod.POST,"/login").authenticated()
+                                .requestMatchers(HttpMethod.GET,"/getInfo").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET,"/getAdminInfo").hasAuthority("ROLE_ADMIN")
+                                .anyRequest().permitAll())
+                .sessionManagement(el -> el.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(el -> el.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .addFilterBefore(myContextHolderFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
