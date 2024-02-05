@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class JWTRequestDTO {
+public class JWTRegitsterDTO {
     private String userName;
+    private String email;
     private String password;
+    private String passwordConfirm;
 }

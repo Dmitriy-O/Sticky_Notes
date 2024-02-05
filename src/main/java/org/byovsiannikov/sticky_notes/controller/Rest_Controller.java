@@ -3,20 +3,19 @@ package org.byovsiannikov.sticky_notes.controller;
 import com.nimbusds.jose.JOSEException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.byovsiannikov.sticky_notes.dto.JWTRequestDTO;
+import org.byovsiannikov.sticky_notes.converter.RegisterDTO_Entity_Converter;
+import org.byovsiannikov.sticky_notes.dto.JWTLoginDTO;
+import org.byovsiannikov.sticky_notes.dto.JWTRegitsterDTO;
 import org.byovsiannikov.sticky_notes.dto.ResponseTokenDTO;
 import org.byovsiannikov.sticky_notes.exception.AppErorr;
 import org.byovsiannikov.sticky_notes.exception.ErrorCodes;
 import org.byovsiannikov.sticky_notes.jwt.TokenCreation;
 import org.byovsiannikov.sticky_notes.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,21 +39,39 @@ public class Rest_Controller {
 
     private final TokenCreation tokenCreation;
     private final UserService userService;
+    private final RegisterDTO_Entity_Converter registeredUserConverter ;
     private final AuthenticationManager authenticationManager; //validates authentication operation
 
     @PostMapping("/login")
-    public ResponseEntity<?> register(@RequestBody JWTRequestDTO jwtRequestDTO) throws ParseException, JOSEException {
+    public ResponseEntity<?> login(@RequestBody JWTLoginDTO jwtLoginDTO) throws ParseException, JOSEException {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequestDTO.getUserName(),jwtRequestDTO.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtLoginDTO.getUserName(), jwtLoginDTO.getPassword()));
         } catch (BadCredentialsException e) {
             log.error(e.getMessage(),e);
             return new ResponseEntity<>(new AppErorr(ErrorCodes.UNAUTHORIZED.getCode(),"Authentification error"), HttpStatus.UNAUTHORIZED);
         }
-        UserDetails userRetrievedData=userService.loadUserByUsername(jwtRequestDTO.getUserName());
+        UserDetails userRetrievedData=userService.loadUserByUsername(jwtLoginDTO.getUserName());
 
         String serializeToken = tokenCreation.serializeToken(userRetrievedData);
 
         return ResponseEntity.ok().body(new ResponseTokenDTO(serializeToken));
+    }
+    @PostMapping("/register")
+    public ResponseEntity<?> registerNewUser(@RequestBody JWTRegitsterDTO jwtRegitsterDTO){
+        String password = jwtRegitsterDTO.getPassword();
+        String passwordConfirm = jwtRegitsterDTO.getPasswordConfirm();
+        if (!password.equals(passwordConfirm)){
+            return new ResponseEntity<>(new AppErorr(HttpStatus.BAD_REQUEST.value(), "Password doesnt match"),HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            userService.CreateNewUser(registeredUserConverter.apply(jwtRegitsterDTO));
+            return ResponseEntity.ok("User created succesfully");
+        } catch (Exception e) {
+            log.error("User Creation error",e);
+        }
+        return ResponseEntity.badRequest().body("Error with creation new user");
+
     }
 
     @PostMapping("/any")

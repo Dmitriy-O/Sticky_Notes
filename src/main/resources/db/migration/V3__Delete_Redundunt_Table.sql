@@ -1,0 +1,1 @@
+alter table user_entity drop column tempdata
