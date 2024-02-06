@@ -55,7 +55,6 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                 );
             } catch (ParseException | JOSEException e) {
                 log.error("Exception with token parsing", e);
-
             }
             SecurityContextHolder.getContext().setAuthentication(token);
         }

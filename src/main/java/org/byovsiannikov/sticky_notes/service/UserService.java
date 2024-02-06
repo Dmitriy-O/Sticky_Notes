@@ -47,13 +47,15 @@ public class UserService implements UserDetailsService {
 
         );
     }
-    public void CreateNewUser(UserEntity newUser){
 
-        if(userRepository.findByName(newUser.getName())!=null){
-            logger.error("User {} already exists",newUser.getName());
+    public void CreateNewUser(UserEntity newUser) {
+
+        if (userRepository.findByName(newUser.getName()) != null) {
+            logger.error("User {} already exists", newUser.getName());
+        } else {
+            newUser.setUserRoleList(List.of(roleRepository.findByRole("ROLE_USER").get()));
+            userRepository.save(newUser);
         }
-        newUser.setUserRoleList(List.of(roleRepository.findByRole("ROLE_USER").get()));
-        userRepository.save(newUser);
     }
 
 }
