@@ -35,7 +35,7 @@ import java.text.ParseException;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
-public class Rest_Controller {
+public class Auth_Controller {
 
     private final TokenCreation tokenCreation;
     private final UserService userService;
