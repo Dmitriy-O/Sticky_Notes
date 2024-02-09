@@ -1,7 +1,13 @@
 package org.byovsiannikov.sticky_notes.service;
 
 import org.byovsiannikov.sticky_notes.dto.NoteDTO;
+import org.byovsiannikov.sticky_notes.entitiy.NoteEntity;
+
+import java.util.List;
 
 public interface NoteService {
-    NoteDTO postNote(NoteDTO note);
+    NoteEntity postNote(NoteEntity note);
+    List<NoteEntity> getAllNotes();
+    NoteEntity getNoteById(Long id);
+
 }
