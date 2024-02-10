@@ -26,7 +26,7 @@ public class NoteEntity {
     private BigInteger dateIssue;
     @Column(name = "date_update")
     private BigInteger dateUpdated;
-    private boolean isActive;
+    private Boolean isActive;
 
 
 }

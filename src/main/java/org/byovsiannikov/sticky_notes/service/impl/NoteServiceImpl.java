@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.byovsiannikov.sticky_notes.entitiy.NoteEntity;
 import org.byovsiannikov.sticky_notes.repository.NoteRepository;
 import org.byovsiannikov.sticky_notes.service.NoteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class NoteServiceImpl implements NoteService {
     public List<NoteEntity> getAllNotes() {
         return noteRepository.findAll()
                 .stream()
-                .filter(NoteEntity::isActive)
+                .filter(NoteEntity::getIsActive)
                 .toList();
     }
 
@@ -45,29 +47,28 @@ public class NoteServiceImpl implements NoteService {
         if (noteRepository.findById(id).isEmpty()) {
             return null;
         }
-        if (!noteRepository.findById(id).get().isActive()) {
+        if (!noteRepository.findById(id).get().getIsActive()) {
             return null;
         }
         return noteRepository.findById(id).get();
     }
-
+//todo logging
     @Override
-    public NoteEntity updateNoteById(Long id, NoteEntity entityForUpdate) {
+    public NoteEntity updateNoteById(Long id, NoteEntity valuesForUpdate) {
         if (noteRepository.findById(id).isEmpty()) {
             return null;
         }
-        NoteEntity noteEntityForUpdate = noteRepository.findById(id).get();
-        return noteEntityForUpdate.builder()
-                .title(entityForUpdate.getTitle())
-                .description(entityForUpdate.getDescription())
-                .dateUpdated(BigInteger.valueOf(new Date().getTime()))
-                .build();
+        valuesForUpdate.setDateUpdated(BigInteger.valueOf(new Date().getTime()));
+        NoteEntity updatedNote = noteRepository.findById(id).get();
+        BeanUtils.copyProperties(valuesForUpdate,updatedNote,"id","author","dateIssue","isActive");
+        noteRepository.save(updatedNote);
+        return updatedNote;
     }
 
     @Override
     public String deleteNoteById(Long id) {
         NoteEntity noteEntity = noteRepository.getReferenceById(id);
-        noteEntity.setActive(false);
+        noteEntity.setIsActive(false);
         return "Entity was deleted";
     }
 }

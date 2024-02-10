@@ -21,6 +21,12 @@ public class NoteDTO_Entity_Converter implements Function<NoteDTO, NoteEntity> {
     private final AuthorDTO_ENTITY_Converter authorDTOEntityConverter;
     private final long issueTime = Date.from(Instant.now()).getTime();
 
+    public NoteEntity converterForUpdate(NoteDTO noteDTO) {
+        return NoteEntity.builder()
+                .title(noteDTO.getTitle())
+                .description(noteDTO.getDescription())
+                .build();
+    }
     @Override
     public NoteEntity apply(NoteDTO noteDTO) {
         return NoteEntity.builder()

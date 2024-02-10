@@ -45,7 +45,7 @@ public class Main_Controller {
     @PutMapping("/updateNoteById/{id}")
     public ResponseEntity<?> updateNote(@PathVariable(name = "id") Long id,@RequestBody NoteDTO noteDTOForUpdate)  {
 //        noteService.getNoteById(id);
-        NoteDTO postedNote = converter.reverseConverter(noteService.updateNoteById(id,converter.apply(noteDTOForUpdate)));
+        NoteDTO postedNote = converter.reverseConverter(noteService.updateNoteById(id,converter.converterForUpdate(noteDTOForUpdate)));
         return ResponseEntity.ok(postedNote);
     }
     @DeleteMapping("/deleteNoteById/{id}")
