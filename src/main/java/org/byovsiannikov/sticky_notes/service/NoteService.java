@@ -9,5 +9,7 @@ public interface NoteService {
     NoteEntity postNote(NoteEntity note);
     List<NoteEntity> getAllNotes();
     NoteEntity getNoteById(Long id);
+    NoteEntity updateNoteById(Long id,NoteEntity entityForUpdate);
+    String deleteNoteById(Long id);
 
 }

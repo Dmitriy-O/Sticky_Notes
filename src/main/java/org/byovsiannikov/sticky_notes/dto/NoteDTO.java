@@ -12,7 +12,8 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteDTO {
-    private AuthorEntity author;
+    private String title;
+    private AuthorDTO author;
     private String description;
     private BigInteger dateIssue;
     private BigInteger dateUpdated;

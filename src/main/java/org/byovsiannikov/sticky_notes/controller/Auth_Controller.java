@@ -39,7 +39,7 @@ public class Auth_Controller {
 
     private final TokenCreation tokenCreation;
     private final UserService userService;
-    private final RegisterDTO_Entity_Converter registeredUserConverter ;
+    private final RegisterDTO_Entity_Converter registeredUserConverter;
     private final AuthenticationManager authenticationManager; //validates authentication operation
 
     @PostMapping("/login")
@@ -47,28 +47,29 @@ public class Auth_Controller {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtLoginDTO.getUserName(), jwtLoginDTO.getPassword()));
         } catch (BadCredentialsException e) {
-            log.error(e.getMessage(),e);
-            return new ResponseEntity<>(new AppErorr(ErrorCodes.UNAUTHORIZED.getCode(),"Authentification error"), HttpStatus.UNAUTHORIZED);
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(new AppErorr(ErrorCodes.UNAUTHORIZED.getCode(), "Authentification error"), HttpStatus.UNAUTHORIZED);
         }
-        UserDetails userRetrievedData=userService.loadUserByUsername(jwtLoginDTO.getUserName());
+        UserDetails userRetrievedData = userService.loadUserByUsername(jwtLoginDTO.getUserName());
 
         String serializeToken = tokenCreation.serializeToken(userRetrievedData);
 
         return ResponseEntity.ok().body(new ResponseTokenDTO(serializeToken));
     }
+
     @PostMapping("/register")
-    public ResponseEntity<?> registerNewUser(@RequestBody JWTRegitsterDTO jwtRegitsterDTO){
+    public ResponseEntity<?> registerNewUser(@RequestBody JWTRegitsterDTO jwtRegitsterDTO) {
         String password = jwtRegitsterDTO.getPassword();
         String passwordConfirm = jwtRegitsterDTO.getPasswordConfirm();
-        if (!password.equals(passwordConfirm)){
-            return new ResponseEntity<>(new AppErorr(HttpStatus.BAD_REQUEST.value(), "Password doesnt match"),HttpStatus.BAD_REQUEST);
+        if (!password.equals(passwordConfirm)) {
+            return new ResponseEntity<>(new AppErorr(HttpStatus.BAD_REQUEST.value(), "Password doesnt match"), HttpStatus.BAD_REQUEST);
         }
 
         try {
             userService.CreateNewUser(registeredUserConverter.apply(jwtRegitsterDTO));
             return ResponseEntity.ok("User created succesfully");
         } catch (Exception e) {
-            log.error("User Creation error",e);
+            log.error("User Creation error", e);
         }
         return ResponseEntity.badRequest().body("Error with creation new user");
 
@@ -76,12 +77,8 @@ public class Auth_Controller {
 
     @PostMapping("/any")
 
-    public ResponseEntity<?> postNote(){
+    public ResponseEntity<?> postNote() {
         return ResponseEntity.ok().body("Hello from login");
     }
-//
-//    @GetMapping
-//    public HttpResponse<?> getNote(){
-//
-//    }
 }
+

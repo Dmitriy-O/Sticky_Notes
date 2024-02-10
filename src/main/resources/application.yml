@@ -3,18 +3,22 @@ logging:
     org.springframework.security: trace
 
 jwt:
-    cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
-    lifetime: 30m
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
-    username: postgres
-    password: 12345Do
+  cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
+  lifetime: 30m
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5434/postgres
+#    username: postgres
+#    password: 12345Do
 #    driver-class-name: org.postgresql.Driver
-
+spring:
   jpa:
     hibernate:
       ddl-auto: none
+  docker:
+    compose:
+      lifecycle-management: start_only
+
 
 #
 #  flyway:

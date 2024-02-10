@@ -1,6 +1,9 @@
 package org.byovsiannikov.sticky_notes.converter;
 
+import lombok.RequiredArgsConstructor;
+import org.byovsiannikov.sticky_notes.dto.AuthorDTO;
 import org.byovsiannikov.sticky_notes.dto.NoteDTO;
+import org.byovsiannikov.sticky_notes.entitiy.AuthorEntity;
 import org.byovsiannikov.sticky_notes.entitiy.NoteEntity;
 import org.springframework.stereotype.Component;
 
@@ -12,22 +15,27 @@ import java.util.List;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class NoteDTO_Entity_Converter implements Function<NoteDTO, NoteEntity> {
 
+    private final AuthorDTO_ENTITY_Converter authorDTOEntityConverter;
     private final long issueTime = Date.from(Instant.now()).getTime();
 
     @Override
     public NoteEntity apply(NoteDTO noteDTO) {
         return NoteEntity.builder()
-                .author(noteDTO.getAuthor())
+                .title(noteDTO.getTitle())
+                .author(authorDTOEntityConverter.apply(noteDTO.getAuthor()))
                 .description(noteDTO.getDescription())
                 .dateIssue(BigInteger.valueOf(issueTime))
                 .dateUpdated(BigInteger.valueOf(issueTime))
+                .isActive(true)
                 .build();
     }
     public NoteDTO reverseConverter(NoteEntity noteEntity) {
         return NoteDTO.builder()
-                .author(noteEntity.getAuthor())
+                .title(noteEntity.getTitle())
+                .author(authorDTOEntityConverter.reverseConverter(noteEntity.getAuthor()))
                 .description(noteEntity.getDescription())
                 .dateIssue(noteEntity.getDateIssue())
                 .dateUpdated(noteEntity.getDateUpdated())
@@ -37,7 +45,8 @@ public class NoteDTO_Entity_Converter implements Function<NoteDTO, NoteEntity> {
         return noteEntity
                 .stream()
                 .map(el->NoteDTO.builder()
-                        .author(el.getAuthor())
+                        .title(el.getTitle())
+                        .author(authorDTOEntityConverter.reverseConverter(el.getAuthor()))
                         .description(el.getDescription())
                         .dateIssue(el.getDateIssue())
                         .dateUpdated(el.getDateUpdated()).build())

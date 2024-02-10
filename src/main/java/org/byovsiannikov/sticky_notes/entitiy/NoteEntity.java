@@ -13,14 +13,20 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "note_entity")
 public class NoteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     @Embedded
     private AuthorEntity author;
     private String description;
+    @Column(name = "date_issue")
     private BigInteger dateIssue;
+    @Column(name = "date_update")
     private BigInteger dateUpdated;
+    private boolean isActive;
+
 
 }

@@ -58,6 +58,7 @@ public class AuthConfigurer {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(HttpMethod.POST,"/login").authenticated()
+                                .requestMatchers(HttpMethod.POST,"/postNote").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET,"/getInfo").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET,"/getAdminInfo").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().permitAll())
