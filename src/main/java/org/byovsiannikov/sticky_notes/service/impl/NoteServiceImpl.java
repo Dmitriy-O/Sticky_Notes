@@ -10,7 +10,6 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -67,8 +66,13 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public String deleteNoteById(Long id) {
-        NoteEntity noteEntity = noteRepository.getReferenceById(id);
+        if (noteRepository.findById(id).isEmpty() || !noteRepository.findById(id).get().getIsActive()) {
+            return null;
+        }
+        NoteEntity noteEntity = noteRepository.findById(id).get();
+
         noteEntity.setIsActive(false);
+        noteRepository.save(noteEntity);
         return "Entity was deleted";
     }
 }

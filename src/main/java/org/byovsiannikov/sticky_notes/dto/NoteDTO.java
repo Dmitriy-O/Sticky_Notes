@@ -11,8 +11,6 @@ import java.util.Objects;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class NoteDTO {
     private String title;
     private AuthorDTO author;
