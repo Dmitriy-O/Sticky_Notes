@@ -367,5 +367,5 @@ public class NoteServiceTest {
         //verify
         Mockito.verify(noteRepository, Mockito.times(1)).findById(1L);
     }
-//test for second condition
+//todo test for second condition
 }

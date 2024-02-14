@@ -44,9 +44,11 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteEntity getNoteById(Long id) {
         if (noteRepository.findById(id).isEmpty()) {
+            log.error("User with {} id not found ",id);
             return null;
         }
         if (!noteRepository.findById(id).get().getIsActive()) {
+            log.error("User with {} id not active ",id);
             return null;
         }
         return noteRepository.findById(id).get();
@@ -55,6 +57,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteEntity updateNoteById(Long id, NoteEntity valuesForUpdate) {
         if (noteRepository.findById(id).isEmpty()) {
+            log.error("User with {} id not found ",id);
             return null;
         }
         valuesForUpdate.setDateUpdated(BigInteger.valueOf(new Date().getTime()));
@@ -67,6 +70,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public String deleteNoteById(Long id) {
         if (noteRepository.findById(id).isEmpty() || !noteRepository.findById(id).get().getIsActive()) {
+            log.error("User with {} id not found or not active ",id);
             return null;
         }
         NoteEntity noteEntity = noteRepository.findById(id).get();
