@@ -33,7 +33,10 @@ public class Main_Controller {
         return ResponseEntity.ok(postedNote);
     }
     @GetMapping("/getAllNotes")
-    public ResponseEntity<?> getAllNotes()  {
+    public ResponseEntity<?> getAllNotes(
+            @RequestParam(value = "pageNumber",required = false,defaultValue = "0") Long pageNumber,
+            @RequestParam(value = "pageSize",required = false,defaultValue = "10") Long pageSize
+    )  {
         List<NoteDTO> postedNote = converter.listReverseConverter(noteService.getAllNotes());
         return ResponseEntity.ok(postedNote);
     }

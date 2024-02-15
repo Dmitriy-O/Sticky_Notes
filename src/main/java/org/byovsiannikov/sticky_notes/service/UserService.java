@@ -44,10 +44,8 @@ public class UserService implements UserDetailsService {
                         .map(el -> new SimpleGrantedAuthority(el.getRole()))
                         .toList()
 
-
         );
     }
-
     public void CreateNewUser(UserEntity newUser) {
 
         if (userRepository.findByName(newUser.getName()) != null) {
