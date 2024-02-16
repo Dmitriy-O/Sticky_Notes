@@ -1,14 +1,11 @@
 package org.byovsiannikov.sticky_notes.converter;
 
 import lombok.RequiredArgsConstructor;
-import org.byovsiannikov.sticky_notes.dto.JWTRegitsterDTO;
-import org.byovsiannikov.sticky_notes.dto.NoteDTO;
-import org.byovsiannikov.sticky_notes.entitiy.NoteEntity;
+import org.byovsiannikov.sticky_notes.dto.request.JWTRegitsterDTO;
 import org.byovsiannikov.sticky_notes.entitiy.UserEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.util.function.Function;
 
 @RequiredArgsConstructor

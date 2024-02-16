@@ -2,11 +2,10 @@ package org.byovsiannikov.sticky_notes.converter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.byovsiannikov.sticky_notes.dto.NoteDTO;
+import org.byovsiannikov.sticky_notes.dto.request.NoteDTO;
 import org.byovsiannikov.sticky_notes.entitiy.NoteEntity;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -34,9 +33,6 @@ public class NoteDTO_Entity_Converter implements Function<NoteDTO, NoteEntity> {
                 .title(noteDTO.getTitle())
                 .author(authorDTOEntityConverter.apply(noteDTO.getAuthor()))
                 .description(noteDTO.getDescription())
-                .dateIssue(BigInteger.valueOf(issueTime))
-                .dateUpdated(BigInteger.valueOf(issueTime))
-                .isActive(true)
                 .build();
     }
 

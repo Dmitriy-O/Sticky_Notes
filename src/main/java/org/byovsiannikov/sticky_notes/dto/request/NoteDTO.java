@@ -1,10 +1,11 @@
-package org.byovsiannikov.sticky_notes.dto;
+package org.byovsiannikov.sticky_notes.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.byovsiannikov.sticky_notes.dto.AuthorDTO;
 import org.byovsiannikov.sticky_notes.entitiy.AuthorEntity;
 
 import java.math.BigInteger;

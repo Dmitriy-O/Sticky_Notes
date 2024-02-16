@@ -4,9 +4,9 @@ package org.byovsiannikov.sticky_notes.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.byovsiannikov.sticky_notes.converter.NoteDTO_Entity_Converter;
-import org.byovsiannikov.sticky_notes.dto.NoteDTO;
+import org.byovsiannikov.sticky_notes.dto.request.NoteDTO;
+import org.byovsiannikov.sticky_notes.dto.response.PageResponse;
 import org.byovsiannikov.sticky_notes.service.NoteService;
-import org.byovsiannikov.sticky_notes.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,26 +29,26 @@ public class Main_Controller {
     }
     @PostMapping("/postNote")
     public ResponseEntity<?> postNote(@RequestBody NoteDTO noteForPost)  {
-        NoteDTO postedNote = converter.reverseConverter(noteService.postNote(converter.apply(noteForPost)));
+        NoteDTO postedNote = noteService.postNote(noteForPost);
         return ResponseEntity.ok(postedNote);
     }
     @GetMapping("/getAllNotes")
     public ResponseEntity<?> getAllNotes(
-            @RequestParam(value = "pageNumber",required = false,defaultValue = "0") Long pageNumber,
-            @RequestParam(value = "pageSize",required = false,defaultValue = "10") Long pageSize
+            @RequestParam(value = "pageNumber",required = false,defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize
     )  {
-        List<NoteDTO> postedNote = converter.listReverseConverter(noteService.getAllNotes());
-        return ResponseEntity.ok(postedNote);
+       PageResponse pageResponse =noteService.getAllNotes(pageNumber,pageSize);
+        return ResponseEntity.ok(pageResponse);
     }
     @GetMapping("/getNoteById/{id}")
     public ResponseEntity<?> getNoteById(@PathVariable(name = "id") Long id)  {
-        NoteDTO postedNote = converter.reverseConverter(noteService.getNoteById(id));
+        NoteDTO postedNote = noteService.getNoteById(id);
         return ResponseEntity.ok(postedNote);
     }
     @PutMapping("/updateNoteById/{id}")
     public ResponseEntity<?> updateNote(@PathVariable(name = "id") Long id,@RequestBody NoteDTO noteDTOForUpdate)  {
 //        noteService.getNoteById(id);
-        NoteDTO postedNote = converter.reverseConverter(noteService.updateNoteById(id,converter.converterForUpdate(noteDTOForUpdate)));
+        NoteDTO postedNote = noteService.updateNoteById(id,noteDTOForUpdate);
         return ResponseEntity.ok(postedNote);
     }
     @DeleteMapping("/deleteNoteById/{id}")

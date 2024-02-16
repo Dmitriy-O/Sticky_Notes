@@ -1,4 +1,4 @@
-package org.byovsiannikov.sticky_notes.dto;
+package org.byovsiannikov.sticky_notes.dto.response;
 
 import lombok.Data;
 
