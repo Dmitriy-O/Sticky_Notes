@@ -25,7 +25,10 @@ import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 
 //ExtendWith Annoitation for JUnit 5
 @ExtendWith(MockitoExtension.class)
@@ -181,64 +184,90 @@ public class NoteServiceTest {
 //        Assertions.assertThat(noteEntity).isNull();
 //        //verify
 //        Mockito.verify(noteRepository, Mockito.times(1)).findByTitle(noteDTOForSave.getTitle());
-//    }
 //
-    @Test
-    public void NoteService_GetAllNotes_AllNotes() {
-        //arrange
-        NoteEntity noteEntityForReturn = NoteEntity
-                .builder()
-                .id(1l)
-                .title("Task1")
-                .author(AuthorEntity.builder()
-                        .name("Jack")
-                        .surname("Russle")
-                        .position("USER")
-                        .build())
-                .description("lorem ipsum")
-                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .isActive(true)
-                .build();
-        NoteEntity noteEntityForReturn1 = NoteEntity
-                .builder()
-                .id(2l)
-                .title("Task1")
-                .author(AuthorEntity.builder()
-                        .name("Jack")
-                        .surname("Russle")
-                        .position("USER")
-                        .build())
-                .description("lorem ipsum")
-                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .isActive(true)
-                .build();
-        NoteEntity noteEntityForReturn2 = NoteEntity
-                .builder()
-                .id(3l)
-                .title("Task1")
-                .author(AuthorEntity.builder()
-                        .name("Jack")
-                        .surname("Russle")
-                        .position("USER")
-                        .build())
-                .description("lorem ipsum")
-                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
-                .isActive(true)
-                .build();
-        Page<NoteEntity> noteEntityPage=null;
-        Pageable pageable= PageRequest.of(1,10);
-        List<NoteEntity> noteEntitysForSave = List.of(noteEntityForReturn, noteEntityForReturn1, noteEntityForReturn2);
-        //act
-        Mockito.when(noteRepository.findAll(pageable)).thenReturn(noteEntityPage);
-        //assert
-       PageResponse pageResponse = noteService.getAllNotes(1,10);
-        Assertions.assertThat(pageResponse).isNotNull();
-        //verify
-        Mockito.verify(noteRepository, Mockito.times(1)).findAll();
-    }
+//    }
+    //todo test refactoring
+@Test
+public void testGetAllNotes() {
+    // Given (set up mocks, data, and input parameters)
+    Integer pageNo = 1;
+    Integer pageSize = 10;
+    Page<NoteEntity> mockPage = Mockito.mock(Page.class);
+    List<NoteEntity> mockNoteList = new ArrayList<>();
+    // ... fill mockNoteList with sample data
+    Mockito.when(noteRepository.findAllByIsActiveTrue(PageRequest.of(pageNo, pageSize)))
+            .thenReturn(mockPage);
+    Mockito.when(mockPage.getContent()).thenReturn(mockNoteList);
+    Mockito.when(noteDTOEntityConverter.reverseConverter(any(NoteEntity.class)))
+            .thenReturn(// ... create the expected NoteDTO from mockNoteEntity);
+
+                    // When (call the method with prepared data)
+                    PageResponse actualResponse = myService.getAllNotes(pageNo, pageSize);
+
+    // Then (verify interactions and assert outputs)
+    Mockito.verify(noteRepository).findAllByIsActiveTrue(PageRequest.of(pageNo, pageSize));
+    Mockito.verify(mockPage).getContent();
+    mockNoteList.forEach(note -> Mockito.verify(noteDTOEntityConverter).reverseConverter(note));
+
+    // ... further assertions on actualResponse based on expected behavior
+}
+//
+//    @Test
+//    public void NoteService_GetAllNotes_AllNotes() {
+//        //arrange
+//        NoteEntity noteEntityForReturn = NoteEntity
+//                .builder()
+//                .id(1l)
+//                .title("Task1")
+//                .author(AuthorEntity.builder()
+//                        .name("Jack")
+//                        .surname("Russle")
+//                        .position("USER")
+//                        .build())
+//                .description("lorem ipsum")
+//                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .isActive(true)
+//                .build();
+//        NoteEntity noteEntityForReturn1 = NoteEntity
+//                .builder()
+//                .id(2l)
+//                .title("Task1")
+//                .author(AuthorEntity.builder()
+//                        .name("Jack")
+//                        .surname("Russle")
+//                        .position("USER")
+//                        .build())
+//                .description("lorem ipsum")
+//                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .isActive(true)
+//                .build();
+//        NoteEntity noteEntityForReturn2 = NoteEntity
+//                .builder()
+//                .id(3l)
+//                .title("Task1")
+//                .author(AuthorEntity.builder()
+//                        .name("Jack")
+//                        .surname("Russle")
+//                        .position("USER")
+//                        .build())
+//                .description("lorem ipsum")
+//                .dateIssue(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .dateUpdated(BigInteger.valueOf(Instant.now().getEpochSecond()))
+//                .isActive(true)
+//                .build();
+//        Page noteEntityPage=Mockito.mock(Page.class);
+//        Pageable pageable= PageRequest.of(1,10);
+//        List<NoteEntity> noteEntitysForSave = List.of(noteEntityForReturn, noteEntityForReturn1, noteEntityForReturn2);
+//        //act
+//        Mockito.when(noteRepository.findAllByIsActiveTrue(pageable)).thenReturn(noteEntityPage);
+//        //assert
+//       PageResponse pageResponse = noteService.getAllNotes(1,10);
+//        Assertions.assertThat(pageResponse).isNotNull();
+//        //verify
+//        Mockito.verify(noteRepository, Mockito.times(1)).findAllByIsActiveTrue(pageable);
+//    }
 //
 //    @Test
 //    public void NoteService_GetNoteById_Note() {

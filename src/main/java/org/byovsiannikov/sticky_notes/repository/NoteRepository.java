@@ -13,12 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface NoteRepository extends JpaRepository<NoteEntity,Long> {
-//    @Query(value = """
-//            select *
-//            from note_entity
-//            where note_entity.title is not null
-//            """
-//    , nativeQuery = true)
+
     Boolean existsByTitle(String title);
     Page<NoteEntity> findAllByIsActiveTrue(Pageable pageable);
     Optional<Boolean> findByIdAndIsActiveIsFalse(Long id);
